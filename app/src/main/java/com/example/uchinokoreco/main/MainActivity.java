@@ -1,8 +1,10 @@
-package com.example.uchinokoreco;
+package com.example.uchinokoreco.main;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.example.uchinokoreco.R;
 
 public class MainActivity extends AppCompatActivity {
 
