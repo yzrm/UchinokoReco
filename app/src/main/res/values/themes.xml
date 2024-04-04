@@ -3,7 +3,15 @@
     <style name="Base.Theme.UchinokoReco" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <!-- FloatingActionButtonのスタイルを設定 -->
+        <item name="floatingActionButtonStyle">@style/FloatingActionButtonStyle</item>
+    </style>
+    <style name="FloatingActionButtonStyle" parent="Widget.Design.FloatingActionButton">
+        <item name="shapeAppearanceOverlay">@style/FabShapeStyle</item>
     </style>
 
+    <style name="FabShapeStyle" parent="ShapeAppearance.MaterialComponents.MediumComponent">
+        <item name="cornerSize">50%</item>
+    </style>
     <style name="Theme.UchinokoReco" parent="Base.Theme.UchinokoReco" />
 </resources>
