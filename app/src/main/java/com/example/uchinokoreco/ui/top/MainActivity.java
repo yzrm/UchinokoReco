@@ -3,9 +3,13 @@ package com.example.uchinokoreco.ui.top;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import com.example.uchinokoreco.R;
+import com.example.uchinokoreco.ui.createPets.CreatePetsActivity;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
@@ -23,5 +27,18 @@ public class MainActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction()
                 .add( R.id.main_container, topFragment)
                 .commit();
+
+        // プラスボタン設定
+        plusButtonSetting();
+    }
+
+    private void plusButtonSetting(){
+        FloatingActionButton addBtn = findViewById(R.id.add_button);
+        addBtn.setOnClickListener(view -> {
+            //TODO:表示中のFragmentによって処理を分ける
+
+            Intent intent = new Intent(MainActivity.this, CreatePetsActivity.class);
+            startActivity(intent);
+        });
     }
 }
