@@ -5,8 +5,10 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 import java.util.Date;
+
 @Entity
-public class PetsList {
+public class Image {
+
     /**
      * ID
      */
@@ -14,21 +16,14 @@ public class PetsList {
     public int id;
 
     /**
-     * ペット名
+     * 画像ファイル名
      */
-    @ColumnInfo(name = "pet_name")
-    public String petName;
+    @ColumnInfo(name = "file_name")
+    public String fileName;
 
     /**
      * 作成日時
      */
     @ColumnInfo(name = "created_at")
-    public Date createdAt;
-
-    /**
-     * 画像ファイル名
-     */
-    @ColumnInfo(name = "image_name")
-    public String imageName;
+    public Date CreatedAt;
 }
-

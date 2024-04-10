@@ -6,6 +6,7 @@ import androidx.room.Room;
 
 import com.example.uchinokoreco.data.UchinokoDatabase;
 import com.example.uchinokoreco.data.dao.DiariesDao;
+import com.example.uchinokoreco.data.dao.ImageDao;
 import com.example.uchinokoreco.data.dao.PetsListDao;
 import com.example.uchinokoreco.data.entities.Diaries;
 import com.example.uchinokoreco.data.entities.PetsList;
@@ -17,6 +18,8 @@ public class UchinokoRecoRepository {
     private PetsListDao petsListDao;
     private DiariesDao diariesDao;
 
+    private ImageDao imageDao;
+
     public UchinokoRecoRepository(Context context){
         db = Room.databaseBuilder(
                 context,
@@ -25,6 +28,7 @@ public class UchinokoRecoRepository {
         ).build();
         petsListDao = db.petsListDao();
         diariesDao = db.diariesDao();
+        imageDao = db.imageDao();
     }
 
     public void insertPetsList(PetsList petsList){ petsListDao.insert(petsList);}

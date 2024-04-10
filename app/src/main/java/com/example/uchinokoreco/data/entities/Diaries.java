@@ -32,10 +32,8 @@ public class Diaries {
     @ColumnInfo(name = "created_at")
     public Date createdAt;
 
-    /**
-     * 画像のパス
-     */
-    @ColumnInfo(name = "image_path")
-    public String imagePath;
 
+    // pets → PetsListID → DiariesID → 画像ファイル名
+    // 実際のパス例：pets/1/1/PET_1.jpg
+    //
 }

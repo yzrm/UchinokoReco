@@ -7,6 +7,9 @@ import android.os.Bundle;
 
 import com.example.uchinokoreco.R;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class MainActivity extends AppCompatActivity {
 
     @Override

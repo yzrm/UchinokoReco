@@ -1,5 +1,6 @@
 plugins {
     id("com.android.application")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -39,4 +40,7 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
+    //dagger-hilt
+    implementation("com.google.dagger:hilt-android:2.44")
+    annotationProcessor("com.google.dagger:hilt-android-compiler:2.44")
 }
