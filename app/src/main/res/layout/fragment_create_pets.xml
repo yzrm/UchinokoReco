@@ -3,4 +3,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimary">
+
+        <EditText
+            android:id="@+id/pet_name_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:hint="@string/pet_name"
+            android:lines="1"
+            android:maxLength="18" />
+
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

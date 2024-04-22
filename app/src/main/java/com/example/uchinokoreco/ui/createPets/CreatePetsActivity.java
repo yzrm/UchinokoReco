@@ -5,6 +5,7 @@ import android.os.PersistableBundle;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import com.example.uchinokoreco.R;
 
@@ -14,5 +15,6 @@ public class CreatePetsActivity extends AppCompatActivity {
     public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_pets);
+
     }
 }
