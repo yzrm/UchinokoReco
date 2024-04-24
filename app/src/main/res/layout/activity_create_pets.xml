@@ -5,6 +5,34 @@
     android:layout_height="match_parent">
 
     <LinearLayout
+        android:layout_above="@id/bottom"
+        android:layout_height="fill_parent"
+        android:layout_width="fill_parent"
+        android:orientation="vertical"
+        android:background="@color/baseBg">
+
+        <EditText
+            android:id="@+id/pet_name_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:hint="@string/pet_name"
+            android:lines="1"
+            android:maxLength="18" />
+
+        <ImageView
+            android:id="@+id/image"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="32dp"
+            android:scaleType="centerCrop"
+            android:layout_width="300dp"
+            android:layout_height="300dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/bottom"
         android:layout_width="match_parent"
         android:layout_height="54dp"
@@ -34,26 +62,6 @@
             android:layout_marginRight="16dp"
             android:layout_weight="1"
             android:text="OK" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_above="@id/bottom"
-        android:layout_height="fill_parent"
-        android:layout_width="fill_parent"
-        android:orientation="vertical"
-        android:background="@color/baseBg">
-
-        <EditText
-            android:id="@+id/pet_name_edit_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:hint="@string/pet_name"
-            android:lines="1"
-            android:maxLength="18" />
 
     </LinearLayout>
 
