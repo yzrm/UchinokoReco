@@ -30,8 +30,12 @@ public class MainActivity extends AppCompatActivity {
 
         // プラスボタン設定
         plusButtonSetting();
+
+        //カレンダーボタン設定
+        calendarButtonSetting();
     }
 
+    //プラスボタン設定
     private void plusButtonSetting(){
         FloatingActionButton addBtn = findViewById(R.id.add_button);
         addBtn.setOnClickListener(view -> {
@@ -39,6 +43,14 @@ public class MainActivity extends AppCompatActivity {
 
             Intent intent = new Intent(MainActivity.this, CreatePetsActivity.class);
             startActivity(intent);
+        });
+    }
+
+    //カレンダーボタン設定
+    private void calendarButtonSetting(){
+        FloatingActionButton calBtn = findViewById(R.id.calendar_button);
+        calBtn.setOnClickListener(view -> {
+
         });
     }
 }
