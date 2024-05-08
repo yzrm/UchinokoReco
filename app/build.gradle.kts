@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "com.example.uchinokoreco"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.example.uchinokoreco"
@@ -28,6 +28,16 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
 }
+dependencies {
+    constraints {
+        implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.8.0") {
+            because("kotlin-stdlib-jdk8 is now a park of kotlin-stdlib")
+        }
+        implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.0"){
+            because("kotlin-stdlib-jdk8 is now a part of kotlin-stdlib")
+        }
+    }
+}
 
 dependencies {
     implementation("com.github.bumptech.glide:glide:4.16.0")
@@ -45,5 +55,5 @@ dependencies {
     annotationProcessor("com.google.dagger:hilt-android-compiler:2.44")
 
     // photo picker
-    implementation("androidx.activity:activity:1.6.1")
+    implementation("androidx.activity:activity:1.8.2")
 }
