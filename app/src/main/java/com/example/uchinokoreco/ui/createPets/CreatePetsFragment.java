@@ -20,8 +20,10 @@ import androidx.activity.result.PickVisualMediaRequest;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.uchinokoreco.R;
+import com.example.uchinokoreco.data.entities.PetsList;
 import com.example.uchinokoreco.ui.top.TopFragment;
 
 import java.io.BufferedInputStream;
@@ -30,15 +32,20 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 import javax.annotation.Nullable;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class CreatePetsFragment extends Fragment {
     public static Fragment getInstance(){ return new CreatePetsFragment();}
 
     private static final String TAG = CreatePetsActivity.class.getSimpleName();
     private ImageView selectedImageView = null;
     private EditText petNameEditText;
+    private CreatePetsViewModel viewModel;
     private File file;
 
     // PhotoPicker起動用ランチャー
@@ -51,16 +58,13 @@ public class CreatePetsFragment extends Fragment {
                     // TODO: 写真取得成功時の処理
                     Log.d(TAG, "取得成功！" + uri);
                     if (selectedImageView != null) {
-                        // TODO: uriからイメージデータを複製してアプリ内に保存する
-
-                        saveFile("test.txt", "test");
-
                         // TODO: アプリ内に保存した画像を表示
-
                         try {
                             InputStream stream = requireActivity().getContentResolver().openInputStream(uri);
                             Bitmap bmp = BitmapFactory.decodeStream(new BufferedInputStream(stream));
                             selectedImageView.setImageBitmap(bmp);
+                            //選択画像のURIをViewModelに保持する
+                            viewModel.setSelectedUri(uri);
                         } catch (FileNotFoundException e) {
                             throw new RuntimeException(e);
                         }
@@ -77,7 +81,8 @@ public class CreatePetsFragment extends Fragment {
     @Override
     public void onViewCreated(@Nullable View view, @androidx.annotation.Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        //ViewModelの取得
+        viewModel = new ViewModelProvider(requireActivity()).get(CreatePetsViewModel.class);
         //選択画像表示用ImageView
         selectedImageView = view.findViewById(R.id.image);
         //ペット名用EditText
@@ -97,7 +102,28 @@ public class CreatePetsFragment extends Fragment {
 //        }
 
         okBtn.setOnClickListener(v ->{
-            //TODO:DBにPetsListのデータを保存する
+            String petName = petNameEditText.getText().toString().trim();
+            if (petName.isEmpty()) return;
+            viewModel.savePetsListData(petName, new CreatePetsViewModel.CreatePetsCallback() {
+                @Override
+                public void onSuccess(long id) {
+                    Log.d(TAG, "onSuccess!" + id);
+                    //TODO:DBにPetsListのデータを保存する
+                    PetsList createData = viewModel.getPetsListDataById(id).get(0);
+                    //保存後にデータを読み込んでパスを作成
+                    String filePath = createData.id + "/" + createData.imageName + ".png";
+                    //TODO:必要なフォルダを作成する
+
+                    //画像をパスに保存する
+                    viewModel.savePetsListImageData(requireActivity(), filePath);
+                }
+
+                @Override
+                public void onFailed() {
+                    Log.e(TAG, "error: Failed to save data.");
+                }
+            });
+
             //TODO：保存後にデータを読み込んでパスを作成
             //TODO:画像をパスに保存する
         });
@@ -115,15 +141,6 @@ public class CreatePetsFragment extends Fragment {
         imageBtb.setOnClickListener(v -> {
             Log.d(TAG, "Cameraボタンが押された");
         });
-    }
-    private void saveFile(String file, String str) {
-
-        try (FileOutputStream fileOutputStream = requireActivity().openFileOutput(file, Context.MODE_PRIVATE)) {
-            fileOutputStream.write(str.getBytes());
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
 }

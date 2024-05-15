@@ -31,11 +31,22 @@ public class UchinokoRecoRepository {
         imageDao = db.imageDao();
     }
 
-    public void insertPetsList(PetsList petsList){ petsListDao.insert(petsList);}
-    public void insertDiaries(Diaries diaries){ diariesDao.insert(diaries);}
-    public List<PetsList> getPetsListAll(){return petsListDao.getAll();}
+    public long insertPetsList(PetsList petsList){
+        return petsListDao.insert(petsList);
+    }
+    public void insertDiaries(Diaries diaries){
+        diariesDao.insert(diaries);
+    }
+    public List<PetsList> getPetsListAll(){
+        return petsListDao.getAll();
+    }
+    public List<PetsList> getPetsListById(long id){
+        return petsListDao.getDataById(id);
+    }
     public List<Diaries> getDiariesListById(int petsListId){
         return diariesDao.getDiariesListById(petsListId);
     }
-    public int getDiariesCount(int petsListId){return diariesDao.getDiariesCount(petsListId);}
+    public int getDiariesCount(int petsListId)
+    {return diariesDao.getDiariesCount(petsListId);
+    }
 }

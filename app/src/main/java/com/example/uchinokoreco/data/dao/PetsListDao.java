@@ -11,8 +11,11 @@ import java.util.List;
 @Dao
 public interface PetsListDao {
     @Upsert
-    void insert(PetsList petsList);
+    long insert(PetsList petsList);
 
     @Query("SELECT * FROM petslist")
     List<PetsList> getAll();
+
+    @Query("SELECT * FROM PetsList WHERE id = :id")
+    List<PetsList> getDataById(long id);
 }

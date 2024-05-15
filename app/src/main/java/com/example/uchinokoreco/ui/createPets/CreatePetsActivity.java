@@ -9,6 +9,9 @@ import androidx.fragment.app.Fragment;
 import com.example.uchinokoreco.R;
 import com.example.uchinokoreco.ui.top.TopFragment;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class CreatePetsActivity extends AppCompatActivity {
 
     @Override
