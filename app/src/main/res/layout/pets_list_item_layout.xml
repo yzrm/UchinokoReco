@@ -19,7 +19,7 @@
             android:id="@+id/pet_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="うちのこ"
+            android:text="@string/pet_name"
             android:textSize="30sp"
             android:textStyle="bold"
             android:layout_marginBottom="6dp"/>

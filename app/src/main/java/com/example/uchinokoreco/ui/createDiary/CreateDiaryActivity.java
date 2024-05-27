@@ -9,6 +9,7 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import com.example.uchinokoreco.R;
 
@@ -19,5 +20,12 @@ public class CreateDiaryActivity extends AppCompatActivity {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_diary);
+
+        // CreateDiaryFragmentのインスタンスを取得
+        Fragment createDiaryFragment = CreateDiaryFragment.getInstance();
+        // CreateDiaryFragmentをセット
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.main_container, createDiaryFragment)
+                .commit();
     }
 }

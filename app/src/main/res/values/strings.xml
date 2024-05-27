@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">UchinokoReco</string>
     <string name="pet_name">ペット名</string>
+    <string name="diary">今日はどんな様子でしたか？</string>
+    <string name="date">yyyy/mm/dd</string>
 </resources>
