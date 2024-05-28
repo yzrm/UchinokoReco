@@ -7,4 +7,9 @@
     android:orientation="vertical"
     tools:context=".ui.top.MainActivity">
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/top_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
 </LinearLayout>

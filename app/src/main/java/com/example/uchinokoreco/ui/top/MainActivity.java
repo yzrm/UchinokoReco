@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.example.uchinokoreco.R;
+import com.example.uchinokoreco.ui.calendar.CalendarFragment;
 import com.example.uchinokoreco.ui.createPets.CreatePetsActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -51,6 +52,14 @@ public class MainActivity extends AppCompatActivity {
         FloatingActionButton calBtn = findViewById(R.id.calendar_button);
         calBtn.setOnClickListener(view -> {
 
+            Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.main_container);
+            if (fragment instanceof TopFragment) {
+                // トップ画面の場合カレンダーフラグメントを表示
+                //TODO:これだとアプリが落ちるから直す
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.main_container, CalendarFragment.class, null)
+                        .commit();
+            }
         });
     }
 }
