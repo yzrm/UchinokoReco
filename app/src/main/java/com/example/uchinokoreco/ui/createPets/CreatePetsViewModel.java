@@ -13,6 +13,7 @@ import com.example.uchinokoreco.data.entities.PetsList;
 import com.example.uchinokoreco.data.repositories.UchinokoRecoRepository;
 import com.example.uchinokoreco.ui.top.TopViewModel;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InterruptedIOException;
@@ -30,9 +31,13 @@ public class CreatePetsViewModel extends ViewModel {
     private UchinokoRecoRepository repository;
     private Uri selectedUri;
 
+    private CreatePetsCallback createPetsCallback;
+
+    //コールバック用インターフェース
     public interface CreatePetsCallback {
         void onSuccess(long id);
         void onFailed();
+        void  onComplete();
     }
 
     public void setSelectedUri(Uri uri){
@@ -42,9 +47,10 @@ public class CreatePetsViewModel extends ViewModel {
         return repository.getPetsListById(id);
     }
     public void savePetsListData(String petName, CreatePetsCallback callback) {
+        createPetsCallback = callback;
         if (selectedUri == null ) {
-            if (callback != null) {
-                callback.onFailed();
+            if (createPetsCallback != null) {
+                createPetsCallback.onFailed();
             }
             return;
         }
@@ -59,13 +65,13 @@ public class CreatePetsViewModel extends ViewModel {
             public void run() {
                 super.run();
                 long id = repository.insertPetsList(petsList);
-                if (callback != null) {
-                    callback.onSuccess(id);
+                if (createPetsCallback != null) {
+                    createPetsCallback.onSuccess(id);
                 }
             }
         }.start();
     }
-    public void savePetsListImageData(Activity activity, String filePath) {
+    public void savePetsListImageData(Activity activity, File dir, String fileName) {
         if (selectedUri == null) return;
         new Thread() {
             @Override
@@ -83,15 +89,18 @@ public class CreatePetsViewModel extends ViewModel {
                     throw new RuntimeException(e);
                 }
                 if (bitmap != null) {
-                    saveFile(activity, filePath, bitmap);
+                    saveFile(dir, fileName, bitmap);
                 }
             }
         }.start();
     }
-    private void saveFile(Activity activity, String filePath, Bitmap bitmap) {
+    private void saveFile(File dir, String fileName, Bitmap bitmap) {
 
-        try (FileOutputStream fileOutputStream = activity.openFileOutput(filePath, Context.MODE_PRIVATE)) {
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream);
+        try (FileOutputStream fileOutputStream = new FileOutputStream( new File(dir, fileName))) {
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fileOutputStream);
+        if (createPetsCallback != null) {
+            createPetsCallback.onComplete();
+        }
         } catch (IOException e) {
             e.printStackTrace();
         }

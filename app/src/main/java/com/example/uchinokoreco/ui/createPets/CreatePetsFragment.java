@@ -111,16 +111,25 @@ public class CreatePetsFragment extends Fragment {
                     //TODO:DBにPetsListのデータを保存する
                     PetsList createData = viewModel.getPetsListDataById(id).get(0);
                     //保存後にデータを読み込んでパスを作成
-                    String filePath = createData.id + "/" + createData.imageName + ".png";
+                    String fileName = createData.imageName + ".jpg";
                     //TODO:必要なフォルダを作成する
-
+                    File dir = new File(requireContext().getFilesDir(), String.valueOf(createData.id));
+                    if (!dir.exists()) {
+                        dir.mkdir();
+                    }
                     //画像をパスに保存する
-                    viewModel.savePetsListImageData(requireActivity(), filePath);
+                    viewModel.savePetsListImageData(requireActivity(), dir, fileName);
                 }
 
                 @Override
                 public void onFailed() {
                     Log.e(TAG, "error: Failed to save data.");
+                }
+
+                @Override
+                public void onComplete() {
+                    //ファイル保存完了後の処理
+                    requireActivity().finish();
                 }
             });
 
