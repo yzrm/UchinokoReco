@@ -2,7 +2,6 @@ package com.example.uchinokoreco.ui.createPets;
 
 
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -14,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.PickVisualMediaRequest;
@@ -23,16 +23,12 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.uchinokoreco.R;
-import com.example.uchinokoreco.data.entities.PetsList;
-import com.example.uchinokoreco.ui.top.TopFragment;
 
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
+
 import java.io.InputStream;
-import java.util.List;
 
 import javax.annotation.Nullable;
 
@@ -104,37 +100,23 @@ public class CreatePetsFragment extends Fragment {
         okBtn.setOnClickListener(v ->{
             String petName = petNameEditText.getText().toString().trim();
             if (petName.isEmpty()) return;
-            viewModel.savePetsListData(petName, new CreatePetsViewModel.CreatePetsCallback() {
-                @Override
-                public void onSuccess(long id) {
-                    Log.d(TAG, "onSuccess!" + id);
-                    //TODO:DBにPetsListのデータを保存する
-                    PetsList createData = viewModel.getPetsListDataById(id).get(0);
-                    //保存後にデータを読み込んでパスを作成
-                    String fileName = createData.imageName + ".jpg";
-                    //TODO:必要なフォルダを作成する
-                    File dir = new File(requireContext().getFilesDir(), String.valueOf(createData.id));
-                    if (!dir.exists()) {
-                        dir.mkdir();
+            viewModel.savePetsListData(
+                    requireActivity(),
+                    petName,
+                    new CreatePetsViewModel.CreatePetsCallback() {
+                        @Override
+                        public void onFailed(String massage) {
+                            //  エラー理由をToastで表示する。
+                            Toast.makeText(requireActivity(), massage, Toast.LENGTH_LONG).show();
+                        }
+
+                        @Override
+                        public void onComplete() {
+                            //ファイル保存完了後の処理
+                            requireActivity().finish();
+                        }
                     }
-                    //画像をパスに保存する
-                    viewModel.savePetsListImageData(requireActivity(), dir, fileName);
-                }
-
-                @Override
-                public void onFailed() {
-                    Log.e(TAG, "error: Failed to save data.");
-                }
-
-                @Override
-                public void onComplete() {
-                    //ファイル保存完了後の処理
-                    requireActivity().finish();
-                }
-            });
-
-            //TODO：保存後にデータを読み込んでパスを作成
-            //TODO:画像をパスに保存する
+            );
         });
 
         // galleryボタン設定

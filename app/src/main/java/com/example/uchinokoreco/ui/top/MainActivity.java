@@ -55,9 +55,10 @@ public class MainActivity extends AppCompatActivity {
             Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.main_container);
             if (fragment instanceof TopFragment) {
                 // トップ画面の場合カレンダーフラグメントを表示
-                //TODO:これだとアプリが落ちるから直す
+                Fragment calenderFragment = CalendarFragment.getInstance();
                 getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.main_container, CalendarFragment.class, null)
+                        .add(R.id.main_container, calenderFragment)
+                        .addToBackStack(null)
                         .commit();
             }
         });

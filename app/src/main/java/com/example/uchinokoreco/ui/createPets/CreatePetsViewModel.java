@@ -35,8 +35,7 @@ public class CreatePetsViewModel extends ViewModel {
 
     //コールバック用インターフェース
     public interface CreatePetsCallback {
-        void onSuccess(long id);
-        void onFailed();
+        void onFailed(String message);
         void  onComplete();
     }
 
@@ -46,11 +45,11 @@ public class CreatePetsViewModel extends ViewModel {
     public List<PetsList> getPetsListDataById(long id){
         return repository.getPetsListById(id);
     }
-    public void savePetsListData(String petName, CreatePetsCallback callback) {
+    public void savePetsListData(Activity activity, String petName, CreatePetsCallback callback) {
         createPetsCallback = callback;
         if (selectedUri == null ) {
             if (createPetsCallback != null) {
-                createPetsCallback.onFailed();
+                createPetsCallback.onFailed("error: There is no selected image information.");
             }
             return;
         }
@@ -59,50 +58,56 @@ public class CreatePetsViewModel extends ViewModel {
         petsList.createdAt = new Date();
         petsList.imageName = "PET_IMG";
 
-        Log.d("TEST", "ID:" + petsList.id);
         new Thread() {
             @Override
             public void run() {
                 super.run();
                 long id = repository.insertPetsList(petsList);
-                if (createPetsCallback != null) {
-                    createPetsCallback.onSuccess(id);
+                // DBにPetsListのデータを保存する
+                PetsList createData = getPetsListDataById(id).get(0);
+                // 保存後にデータを読み込んでパスを作成
+                String fileName = createData.imageName + ".jpg";
+                // 必要なフォルダを作成する
+                File dir = new File(activity.getFilesDir(), String.valueOf(createData.id));
+                if (!dir.exists()) {
+                    dir.mkdir();
                 }
+                savePetsListImageData(activity, dir, fileName);
             }
         }.start();
     }
-    public void savePetsListImageData(Activity activity, File dir, String fileName) {
+    private void savePetsListImageData(Activity activity, File dir, String fileName) {
         if (selectedUri == null) return;
-        new Thread() {
-            @Override
-            public void run() {
-                super.run();
-                Bitmap bitmap = null;
-                try {
-                    bitmap = Glide.with(activity)
-                            .asBitmap()
-                            .load(selectedUri)
-                            .submit()
-                            .get();
+        Bitmap bitmap = null;
+        try {
+            bitmap = Glide.with(activity)
+                    .asBitmap()
+                    .load(selectedUri)
+                    .submit()
+                    .get();
 
-                }catch(ExecutionException | InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-                if (bitmap != null) {
-                    saveFile(dir, fileName, bitmap);
-                }
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+            if (createPetsCallback != null){
+                createPetsCallback.onFailed("error: Failed to get bitmap.");
             }
-        }.start();
+            return;
+        }
+        if (bitmap != null) {
+            saveFile(dir, fileName, bitmap);
+        }
     }
     private void saveFile(File dir, String fileName, Bitmap bitmap) {
-
         try (FileOutputStream fileOutputStream = new FileOutputStream( new File(dir, fileName))) {
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fileOutputStream);
-        if (createPetsCallback != null) {
-            createPetsCallback.onComplete();
-        }
+            if (createPetsCallback != null) {
+                createPetsCallback.onComplete();
+            }
         } catch (IOException e) {
             e.printStackTrace();
+            if (createPetsCallback != null) {
+                createPetsCallback.onFailed("error: Failed to save image file.");
+            }
         }
     }
 
