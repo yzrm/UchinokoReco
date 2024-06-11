@@ -2,10 +2,12 @@ package com.example.uchinokoreco.ui.top;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 
 import com.example.uchinokoreco.R;
 import com.example.uchinokoreco.ui.calendar.CalendarFragment;
@@ -17,6 +19,8 @@ import dagger.hilt.android.AndroidEntryPoint;
 @AndroidEntryPoint
 public class MainActivity extends AppCompatActivity {
 
+    private EditText petList;
+    private RecyclerView petListRecyclerView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,6 +32,12 @@ public class MainActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction()
                 .add( R.id.main_container, topFragment)
                 .commit();
+
+        petList = findViewById(R.id.pet_name_edit_text);
+        petList.setOnKeyListener(this);
+
+        petListRecyclerView = findViewById(R.id.top_recycler_view);
+
 
         // プラスボタン設定
         plusButtonSetting();

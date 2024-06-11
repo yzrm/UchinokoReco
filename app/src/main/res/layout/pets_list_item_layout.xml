@@ -29,15 +29,19 @@
         <androidx.cardview.widget.CardView
             android:layout_width="316dp"
             android:layout_height="154dp"
+            android:layout_gravity="center"
             app:cardBackgroundColor="@color/colorAccent"
             app:cardCornerRadius="20dp"
-            app:cardElevation="2dp">
+            app:cardElevation="0dp">
 
             <ImageView
-                android:layout_width="316dp"
-                android:layout_height="154dp"
+                android:id="@+id/pet_img"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:scaleType="centerCrop"
                 android:layout_gravity="center"
-                tools:src="@drawable/ic_forward_arrow"/>
+                tools:src="@drawable/img_sample"
+                />
 
         </androidx.cardview.widget.CardView>
 
