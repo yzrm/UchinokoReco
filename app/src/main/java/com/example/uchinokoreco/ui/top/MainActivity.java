@@ -1,43 +1,46 @@
 package com.example.uchinokoreco.ui.top;
 
+import androidx.activity.OnBackPressedCallback;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.EditText;
+import android.util.Log;
+
+import androidx.appcompat.widget.Toolbar;
 
 import com.example.uchinokoreco.R;
+import com.example.uchinokoreco.data.entities.PetsList;
 import com.example.uchinokoreco.ui.calendar.CalendarFragment;
 import com.example.uchinokoreco.ui.createPets.CreatePetsActivity;
+import com.example.uchinokoreco.ui.diaries.DiariesFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements CallbackListener {
 
-    private EditText petList;
-    private RecyclerView petListRecyclerView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setTitle(R.string.app_name);
+        }
+        
         // TopFragmentのインスタンスを取得
         Fragment topFragment = TopFragment.getInstance();
         // TopFragmentをセット
         getSupportFragmentManager().beginTransaction()
                 .add( R.id.main_container, topFragment)
                 .commit();
-
-        petList = findViewById(R.id.pet_name_edit_text);
-        petList.setOnKeyListener(this);
-
-        petListRecyclerView = findViewById(R.id.top_recycler_view);
-
 
         // プラスボタン設定
         plusButtonSetting();
@@ -72,5 +75,30 @@ public class MainActivity extends AppCompatActivity {
                         .commit();
             }
         });
+    }
+
+    /**
+     * DiariesFragmentへ遷移する
+     * @param petsList ペット情報
+     */
+    @Override
+    public void moveToDiariesFragment(PetsList petsList) {
+        Fragment diariesFragment = DiariesFragment.getInstance(petsList);
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.main_container, diariesFragment)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    /**
+     * タイトル変更
+     * @param title
+     */
+    @Override
+    public void changeTitle(String title) {
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setTitle(title);
+        }
     }
 }

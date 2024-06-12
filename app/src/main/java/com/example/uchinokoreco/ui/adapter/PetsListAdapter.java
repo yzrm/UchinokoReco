@@ -26,8 +26,7 @@ public class PetsListAdapter extends RecyclerView.Adapter<PetsListAdapter.ViewHo
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             petNameText = itemView.findViewById(R.id.pet_name);
-            //TODO：ここにpetimgを入れる必要がある？
-
+            petImg = itemView.findViewById(R.id.pet_img);
         }
     }
     private List<PetsList> petsList;
@@ -36,8 +35,9 @@ public class PetsListAdapter extends RecyclerView.Adapter<PetsListAdapter.ViewHo
         this.petsList = petsList;
     }
     public void updatePetsList(List<PetsList> petsList){
-        this.petsList = petsList;
-        notifyDataSetChanged();
+        this.petsList.clear();
+        this.petsList.addAll(petsList);
+        notifyItemRangeInserted(0, petsList.size());
     }
 
     @NonNull
@@ -53,6 +53,12 @@ public class PetsListAdapter extends RecyclerView.Adapter<PetsListAdapter.ViewHo
         PetsList data = petsList.get(position);
         holder.petNameText.setText(data.petName);
     //    holder.petImg.setImageBitmap(data.imageName);
+
+        holder.itemView.setOnClickListener(view -> {
+            if (listener != null){
+                listener.onClickItem(data);
+            }
+        });
     }
 
     @Override
