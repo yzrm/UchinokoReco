@@ -2,7 +2,6 @@ package com.example.uchinokoreco.ui.diaries;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.telecom.Call;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +15,7 @@ import com.example.uchinokoreco.data.entities.PetsList;
 import com.example.uchinokoreco.ui.top.CallbackListener;
 import com.example.uchinokoreco.ui.top.MainActivity;
 
-public class DiariesFragment extends Fragment {
+public class DiariesListFragment extends Fragment {
 
 
 
@@ -38,7 +37,7 @@ public class DiariesFragment extends Fragment {
     }
 
     public static Fragment getInstance(PetsList petsList){
-        Fragment fragment = new DiariesFragment();
+        Fragment fragment = new DiariesListFragment();
         Bundle args = new Bundle();
         args.putInt(KEY_PETS_LIST_ID, petsList.id);
         args.putString(KEY_PETS_LIST_NAME, petsList.petName);
@@ -49,7 +48,7 @@ public class DiariesFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return LayoutInflater.from(requireContext()).inflate(R.layout.fragment_diaries, container, false);
+        return LayoutInflater.from(requireContext()).inflate(R.layout.fragment_diaries_list, container, false);
     }
 
     @Override
