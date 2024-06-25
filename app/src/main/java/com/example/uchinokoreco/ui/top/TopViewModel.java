@@ -2,6 +2,7 @@ package com.example.uchinokoreco.ui.top;
 
 import androidx.lifecycle.ViewModel;
 
+import com.example.uchinokoreco.data.entities.Diaries;
 import com.example.uchinokoreco.data.entities.PetsList;
 import com.example.uchinokoreco.data.repositories.UchinokoRecoRepository;
 
@@ -52,6 +53,19 @@ public class TopViewModel extends ViewModel {
                 petsList.createdAt = new Date();
                 petsList.imageName = "imageName";
                 repository.insertPetsList(petsList);
+            }
+        }.start();
+    }
+    public void addDiariesList(){
+
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                Diaries diaries = new Diaries();
+                diaries.detail = "テスト日記です。";
+                diaries.createdAt = new Date();
+                repository.insertDiaries(diaries);
             }
         }.start();
     }

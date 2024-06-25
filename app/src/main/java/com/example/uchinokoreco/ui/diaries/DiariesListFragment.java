@@ -1,19 +1,28 @@
 package com.example.uchinokoreco.ui.diaries;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.uchinokoreco.R;
 import com.example.uchinokoreco.data.entities.PetsList;
+import com.example.uchinokoreco.ui.adapter.DiariesListAdapter;
+import com.example.uchinokoreco.ui.adapter.PetsListAdapter;
 import com.example.uchinokoreco.ui.top.CallbackListener;
 import com.example.uchinokoreco.ui.top.MainActivity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DiariesListFragment extends Fragment {
 
@@ -26,6 +35,8 @@ public class DiariesListFragment extends Fragment {
     private int petsListId= -1;
     private String petsName = "";
 
+    private RecyclerView recyclerView;
+    private DiariesListAdapter adapter;
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
@@ -49,11 +60,23 @@ public class DiariesListFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return LayoutInflater.from(requireContext()).inflate(R.layout.fragment_diaries_list, container, false);
+
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        //RecyclerViewの取得
+        recyclerView = view.findViewById(R.id.diaries_recycler_view);
+        //LayoutManagerの設定
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(layoutManager);
+        //Adapterの設定
+        adapter = new DiariesListAdapter();
+        recyclerView.setAdapter(adapter);
+
+
         Bundle args = getArguments();
         if (args != null) {
             petsListId = getArguments().getInt(KEY_PETS_LIST_ID);
@@ -71,4 +94,5 @@ public class DiariesListFragment extends Fragment {
         //TODO:データの読み込みと表示
 
     }
+    
 }

@@ -7,6 +7,8 @@ import com.example.uchinokoreco.data.repositories.UchinokoRecoRepository;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import dagger.hilt.android.lifecycle.HiltViewModel;
 
 @HiltViewModel
@@ -18,6 +20,9 @@ public class CreateDiaryViewModel extends ViewModel {
         void onFailed(String massage);
         void onComplete();
     }
-
+@Inject
+    CreateDiaryViewModel(UchinokoRecoRepository repository){
+        this.repository = repository;
+    }
 
 }

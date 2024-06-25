@@ -14,6 +14,7 @@ import androidx.appcompat.widget.Toolbar;
 import com.example.uchinokoreco.R;
 import com.example.uchinokoreco.data.entities.PetsList;
 import com.example.uchinokoreco.ui.calendar.CalendarFragment;
+import com.example.uchinokoreco.ui.createDiary.CreateDiaryActivity;
 import com.example.uchinokoreco.ui.createPets.CreatePetsActivity;
 import com.example.uchinokoreco.ui.diaries.DiariesListFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -57,12 +58,14 @@ public class MainActivity extends AppCompatActivity implements CallbackListener 
             //表示中のFragmentによって処理を分ける
             //TopFragmentの場合
             if(fragment instanceof TopFragment){
-            Intent intent = new Intent(MainActivity.this, CreatePetsActivity.class);
-            startActivity(intent);
+                Intent intent = new Intent(MainActivity.this, CreatePetsActivity.class);
+                startActivity(intent);
 
             //DiariesListFragmentの場合
             }else if (fragment instanceof DiariesListFragment){
-
+                //TODO:CreateDiaryActivityに変更する。
+//                Intent intent = new Intent(MainActivity.this, CreateDiaryActivity.class);
+//                startActivity(intent);
                 //テスト用にトーストを表示
                 Context context = getApplicationContext();
                 CharSequence text = "日記リストフラグメントです。";
