@@ -94,5 +94,9 @@ public class DiariesListFragment extends Fragment {
         //TODO:データの読み込みと表示
 
     }
-    
+
+    public int getPetsListId() {
+        return petsListId;
+    }
+
 }

@@ -14,6 +14,9 @@ import java.util.List;
 
 public class DiariesListAdapter extends RecyclerView.Adapter<DiariesListAdapter.ViewHolder> {
 
+    public DiariesListAdapter(){
+
+    }
     class ViewHolder extends RecyclerView.ViewHolder{
 
         public ViewHolder(@NonNull View itemView){

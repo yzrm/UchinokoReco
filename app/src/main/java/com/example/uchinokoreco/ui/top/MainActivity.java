@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
@@ -63,13 +64,11 @@ public class MainActivity extends AppCompatActivity implements CallbackListener 
 
             //DiariesListFragmentの場合
             }else if (fragment instanceof DiariesListFragment){
-                //TODO:CreateDiaryActivityに変更する。
-//                Intent intent = new Intent(MainActivity.this, CreateDiaryActivity.class);
-//                startActivity(intent);
-                //テスト用にトーストを表示
-                Context context = getApplicationContext();
-                CharSequence text = "日記リストフラグメントです。";
-                Toast.makeText(context, text, Toast.LENGTH_LONG).show();
+                int petsListId = ((DiariesListFragment) fragment).getPetsListId();
+                //CreateDiaryActivityに推移する。
+                Intent intent = new Intent(MainActivity.this, CreateDiaryActivity.class);
+                intent.putExtra(CreateDiaryActivity.KEY_PETS_LIST_ID, petsListId);
+                startActivity(intent);
             }
         });
     }
@@ -99,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements CallbackListener 
     public void moveToDiariesFragment(PetsList petsList) {
         Fragment diariesFragment = DiariesListFragment.getInstance(petsList);
         getSupportFragmentManager().beginTransaction()
-                .add(R.id.main_container, diariesFragment)
+                .replace(R.id.main_container, diariesFragment)
                 .addToBackStack(null)
                 .commit();
     }

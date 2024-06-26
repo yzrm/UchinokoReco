@@ -34,8 +34,8 @@ public class UchinokoRecoRepository {
     public long insertPetsList(PetsList petsList){
         return petsListDao.insert(petsList);
     }
-    public void insertDiaries(Diaries diaries){
-        diariesDao.insert(diaries);
+    public long insertDiaries(Diaries diaries) {
+        return diariesDao.insert(diaries);
     }
     public List<PetsList> getPetsListAll(){
         return petsListDao.getAll();

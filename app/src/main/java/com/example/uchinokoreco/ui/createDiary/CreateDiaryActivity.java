@@ -15,12 +15,17 @@ import androidx.fragment.app.Fragment;
 
 import com.example.uchinokoreco.R;
 
-public class CreateDiaryActivity extends AppCompatActivity {
+import dagger.hilt.android.AndroidEntryPoint;
 
+@AndroidEntryPoint
+public class CreateDiaryActivity extends AppCompatActivity implements CallbackListener {
 
+    public static final String KEY_PETS_LIST_ID = "com.example.uchinokoreco.CreateDiaryActivity.key_pets_list_id";
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //ペットリストIDの取得
+        int petsListId = getIntent().getIntExtra(KEY_PETS_LIST_ID, - 1);
         setContentView(R.layout.activity_create_diary);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -32,10 +37,20 @@ public class CreateDiaryActivity extends AppCompatActivity {
         }
 
         // CreateDiaryFragmentのインスタンスを取得
-        Fragment createDiaryFragment = CreateDiaryFragment.getInstance();
+        Fragment createDiaryFragment = CreateDiaryFragment.getInstance(petsListId);
         // CreateDiaryFragmentをセット
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.main_container, createDiaryFragment)
                 .commit();
+    }
+
+    @Override
+    public void doBackPress() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                getOnBackPressedDispatcher().onBackPressed();
+            }
+        });
     }
 }
