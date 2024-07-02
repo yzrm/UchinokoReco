@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,6 +17,8 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.uchinokoreco.R;
 import com.example.uchinokoreco.data.DiaryData;
+
+import java.util.Calendar;
 
 import dagger.hilt.android.AndroidEntryPoint;
 

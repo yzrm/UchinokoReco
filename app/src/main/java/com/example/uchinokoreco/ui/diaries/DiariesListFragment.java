@@ -25,9 +25,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DiariesListFragment extends Fragment {
-
-
-
     private static final String KEY_PETS_LIST_ID = "key_pets_list_id";
     private static final String KEY_PETS_LIST_NAME = "key_pets_list_name";
 
@@ -37,6 +34,7 @@ public class DiariesListFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private DiariesListAdapter adapter;
+
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
@@ -73,7 +71,7 @@ public class DiariesListFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         //Adapterの設定
-        adapter = new DiariesListAdapter();
+        adapter = new DiariesListAdapter(new ArrayList<>());
         recyclerView.setAdapter(adapter);
 
 
@@ -92,6 +90,7 @@ public class DiariesListFragment extends Fragment {
             callbackListener.changeTitle(petsName);
         }
         //TODO:データの読み込みと表示
+        
 
     }
 
