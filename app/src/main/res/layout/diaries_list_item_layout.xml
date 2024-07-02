@@ -27,4 +27,11 @@
         android:textSize="14sp"
         android:hint="@string/diary"/>
 
+    <View
+        android:id="@+id/divider"
+        android:layout_marginTop="24sp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?android:attr/listDivider" />
+
 </androidx.appcompat.widget.LinearLayoutCompat>
