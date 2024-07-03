@@ -66,7 +66,7 @@ public class TopFragment extends Fragment implements TopViewModel.OnEventListene
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         //Adapterの設定
-        adapter = new PetsListAdapter(new ArrayList<>());
+        adapter = new PetsListAdapter(getActivity().getFilesDir(), new ArrayList<>());
         adapter.setOnClickItemListener(this);
         recyclerView.setAdapter(adapter);
     }

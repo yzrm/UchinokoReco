@@ -1,5 +1,8 @@
 package com.example.uchinokoreco.ui.adapter;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +15,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.uchinokoreco.R;
 import com.example.uchinokoreco.data.entities.PetsList;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.List;
 
 public class PetsListAdapter extends RecyclerView.Adapter<PetsListAdapter.ViewHolder>{
@@ -31,13 +37,15 @@ public class PetsListAdapter extends RecyclerView.Adapter<PetsListAdapter.ViewHo
     }
     private List<PetsList> petsList;
     private OnClickItemListener listener;
-    public PetsListAdapter(List<PetsList> petsList) {
+    private File filesDir;
+    public PetsListAdapter(File filesDir, List<PetsList> petsList) {
+        this.filesDir = filesDir;
         this.petsList = petsList;
     }
     public void updatePetsList(List<PetsList> petsList){
         this.petsList.clear();
         this.petsList.addAll(petsList);
-        notifyItemRangeInserted(0, petsList.size());
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -52,13 +60,30 @@ public class PetsListAdapter extends RecyclerView.Adapter<PetsListAdapter.ViewHo
     public void onBindViewHolder(@NonNull PetsListAdapter.ViewHolder holder, int position) {
         PetsList data = petsList.get(position);
         holder.petNameText.setText(data.petName);
-    //    holder.petImg.setImageBitmap(data.imageName);
-
+        if (filesDir != null ) {
+            //画像取得処理を行う
+            Bitmap bitmap = getPetsImageBitmap(data.id, data.imageName);
+            if (bitmap != null){
+                holder.petImg.setImageBitmap(bitmap);
+            }
+        }
         holder.itemView.setOnClickListener(view -> {
             if (listener != null){
                 listener.onClickItem(data);
             }
         });
+    }
+
+    private Bitmap getPetsImageBitmap(int petListId, String imageName) {
+        String fileName = imageName + ".jpg";
+        File dir = new File(filesDir, String.valueOf(petListId));
+        Bitmap bitmap = null;
+        try (FileInputStream fileInputStream = new FileInputStream(new File(dir, fileName))){
+            bitmap = BitmapFactory.decodeStream(fileInputStream);
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+        return bitmap ;
     }
 
     @Override

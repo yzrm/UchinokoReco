@@ -18,6 +18,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.uchinokoreco.R;
 import com.example.uchinokoreco.data.DiaryData;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import dagger.hilt.android.AndroidEntryPoint;
@@ -39,6 +40,7 @@ public class CreateDiaryFragment extends Fragment implements CreateDiaryViewMode
     private CreateDiaryViewModel viewModel;
 
     private CallbackListener callbackListener;
+    private TextView createDateText;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -65,12 +67,28 @@ public class CreateDiaryFragment extends Fragment implements CreateDiaryViewMode
         }
         //ViewModelの取得
         viewModel = new ViewModelProvider(requireActivity()).get(CreateDiaryViewModel.class);
+        // 作成日時
+        createDateText = view.findViewById(R.id.create_date_text);
+        // 今日の日付を表示する
+        String currentDate = getCurrentDate();
+        createDateText.setText(currentDate);
         //選択画像表示用ImageView
         selectedImageView = view.findViewById(R.id.image);
         //日記用EditText
         diaryEditText = view.findViewById(R.id.diary_edit_text);
         //各種ボタン設定
         buttonSetting(view);
+    }
+
+    /**
+     *  今日の日付を文字列で取得する
+     *
+     * @return yyyy/MM/dd形式の今日の日付
+     */
+    private String getCurrentDate(){
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+        return sdf.format(calendar.getTime());
     }
 
     private void buttonSetting(View view) {

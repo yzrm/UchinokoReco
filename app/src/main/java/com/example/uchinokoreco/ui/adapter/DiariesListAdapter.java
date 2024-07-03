@@ -13,6 +13,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.uchinokoreco.R;
 import com.example.uchinokoreco.data.entities.Diaries;
 
+import org.w3c.dom.Text;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class DiariesListAdapter extends RecyclerView.Adapter<DiariesListAdapter.ViewHolder> {
@@ -21,9 +26,11 @@ public class DiariesListAdapter extends RecyclerView.Adapter<DiariesListAdapter.
         void onClickItem (Diaries diaries);
     }
     class ViewHolder extends RecyclerView.ViewHolder{
+        TextView createAtText;
         TextView diaryText;
         public ViewHolder(@NonNull View itemView){
             super(itemView);
+            createAtText = itemView.findViewById(R.id.create_at_text);
             diaryText = itemView.findViewById(R.id.diary_text);
         }
     }
@@ -36,7 +43,7 @@ public class DiariesListAdapter extends RecyclerView.Adapter<DiariesListAdapter.
     public void updateDiaries(List<Diaries> diaries){
         this.diaries.clear();
         this.diaries.addAll(diaries);
-        notifyItemRangeInserted(0,diaries.size());
+        notifyDataSetChanged();
     }
     @NonNull
     @Override
@@ -49,6 +56,7 @@ public class DiariesListAdapter extends RecyclerView.Adapter<DiariesListAdapter.
     @Override
     public void onBindViewHolder(@NonNull DiariesListAdapter.ViewHolder holder, int position) {
         Diaries data = diaries.get(position);
+        holder.createAtText.setText(dateToString(data.createdAt));
         holder.diaryText.setText(data.detail);
 
         holder.itemView.setOnClickListener(view -> {
@@ -64,5 +72,10 @@ public class DiariesListAdapter extends RecyclerView.Adapter<DiariesListAdapter.
 
     public void setOnClickItemListener(OnClickItemLister listener){
         this.listener = listener;
+    }
+    private String dateToString(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+        return sdf.format(calendar.getTime());
     }
 }

@@ -12,6 +12,7 @@
         android:background="@color/baseBg">
 
         <TextView
+            android:id="@+id/create_date_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"

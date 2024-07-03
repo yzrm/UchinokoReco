@@ -4,6 +4,8 @@ package com.example.uchinokoreco.ui.createPets;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.ExifInterface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -28,6 +30,7 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 
+import java.io.IOException;
 import java.io.InputStream;
 
 import javax.annotation.Nullable;
@@ -53,12 +56,29 @@ public class CreatePetsFragment extends Fragment {
                 } else {
                     // TODO: 写真取得成功時の処理
                     Log.d(TAG, "取得成功！" + uri);
+
+                    float orientation = 0f;
+                    switch (getOrientation(uri)) {
+                        case ExifInterface.ORIENTATION_ROTATE_90:
+                            orientation = 90f;
+                            break;
+                        case ExifInterface.ORIENTATION_ROTATE_180:
+                            orientation = 180f;
+                            break;
+                        case ExifInterface.ORIENTATION_ROTATE_270:
+                            orientation = 270f;
+                            break;
+                        default:
+                            break;
+                    }
+
                     if (selectedImageView != null) {
                         // TODO: アプリ内に保存した画像を表示
                         try {
                             InputStream stream = requireActivity().getContentResolver().openInputStream(uri);
                             Bitmap bmp = BitmapFactory.decodeStream(new BufferedInputStream(stream));
                             selectedImageView.setImageBitmap(bmp);
+                            selectedImageView.setRotation(90f);
                             //選択画像のURIをViewModelに保持する
                             viewModel.setSelectedUri(uri);
                         } catch (FileNotFoundException e) {
@@ -68,6 +88,22 @@ public class CreatePetsFragment extends Fragment {
                 }
             }
     );
+
+    /***
+     * 画像の無機を取得
+     *
+     * @param uri
+     * @return
+     */
+    private int getOrientation(Uri uri) {
+        try (InputStream src = getContext().getContentResolver().openInputStream(uri)) {
+            ExifInterface exifInterface = new ExifInterface(src);
+            return exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ExifInterface.ORIENTATION_UNDEFINED;
+        }
+    }
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
